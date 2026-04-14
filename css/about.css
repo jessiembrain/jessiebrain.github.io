@@ -137,6 +137,20 @@
   overflow: hidden;
 }
 
+/* ✅ Fix Mapbox GL inside animated sections */
+#map-section {
+  transform: none !important;
+}
+
+/* Contact links */
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  flex-wrap: wrap;
+}
+
 /* Contact links */
 .contact-links {
   display: flex;
