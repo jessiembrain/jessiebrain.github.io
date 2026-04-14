@@ -137,10 +137,11 @@
   overflow: hidden;
 }
 
-/* ✅ Fix Mapbox GL inside animated sections */
+/* ✅ Always show the map section */
 #map-section {
-  transform: none !important;
+  opacity: 1 !important;
 }
+
 
 /* Contact links */
 .contact-links {
