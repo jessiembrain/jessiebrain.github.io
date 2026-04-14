@@ -45,7 +45,7 @@
   // --- About Page Mapbox Map ---
   const mapContainer = document.getElementById('about-map');
   if (mapContainer && typeof mapboxgl !== 'undefined') {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYWRvdWNldHQiLCJhIjoiY20zZXZyN20zMGd3MzJycTBxYTFza29iYiJ9.ozrkMII8kTiKtHYTS54P2w';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY211bnJvIiwiYSI6ImNrZzl0bHE3ZjAwbTcyenBxYXBibGloYngifQ.ZWwFhWy6Edp1Q8X7A9PeyQ';
 
     const map = new mapboxgl.Map({
       container: 'about-map',
