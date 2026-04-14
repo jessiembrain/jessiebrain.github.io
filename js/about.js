@@ -6,13 +6,8 @@
   if (wordEl) {
     const words = [
       'Cartographer',
-      'Data Viz Engineer',
-      'Cyclist',
-      'Runner',
-      'Photographer',
-      'Jazz Pianist',
-      'Sales Engineer',
-      'Nordic Skier'
+      'Spatial Data Analyst',
+      'Crafter'
     ];
 
     let wordIndex = 0;
