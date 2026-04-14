@@ -1,55 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>My Life Story Map Tour</title>
+<meta charset="utf-8">
+<title>Test Map</title>
 
-<!-- ✅ Match versions (v2) -->
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-
 <style>
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-}
-
-#map {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    z-index: 1;
-}
-
-.scroll-container {
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    overflow-y: scroll;
-    z-index: 2;
-}
-
-.step {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.caption {
-    color: white;
-    font-size: 2.5em;
-    text-align: center;
-    opacity: 0;
-    transition: 0.5s;
-}
-
-.step.active .caption {
-    opacity: 1;
-}
+body { margin:0; }
+#map { width:100%; height:100vh; }
 </style>
 </head>
 
@@ -57,80 +15,16 @@ body, html {
 
 <div id="map"></div>
 
-<div class="scroll-container">
-    <div class="step" data-step="0"><div class="caption">I was born here</div></div>
-    <div class="step" data-step="1"><div class="caption">I grew up here</div></div>
-    <div class="step" data-step="2"><div class="caption">I started college here</div></div>
-    <div class="step" data-step="3"><div class="caption">I finished college here</div></div>
-    <div class="step" data-step="4"><div class="caption">Then lived here</div></div>
-    <div class="step" data-step="5"><div class="caption">I've traveled here...</div></div>
-    <div class="step" data-step="6"><div class="caption">Currently living here</div></div>
-</div>
-
-<!-- ✅ Match versions -->
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-<script src="https://unpkg.com/scrollama"></script>
-
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiY211bnJvIiwiYSI6ImNrZzl0bHE3ZjAwbTcyenBxYXBibGloYngifQ.ZWwFhWy6Edp1Q8X7A9PeyQ';
 
-// ✅ Use safe default style FIRST
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v12',
     center: [-75.16, 39.95],
     zoom: 10
 });
-
-// ✅ Add enough waypoints (match steps)
-const waypoints = [
-    { center: [-2.58, 51.45], zoom: 12 },
-    { center: [-75.70, 40.00], zoom: 13 },
-    { center: [-75.15, 40.03], zoom: 15 },
-    { center: [-75.15, 39.98], zoom: 15 },
-    { center: [-75.16, 39.95], zoom: 12 },
-    { center: [-80.00, 35.00], zoom: 5 },   // filler
-    { center: [-75.16, 39.95], zoom: 13 }   // current
-];
-
-const scroller = scrollama();
-
-scroller.setup({
-    step: '.step',
-    offset: 0.5
-})
-.onStepEnter(response => {
-    const index = parseInt(response.element.dataset.step);
-    flyTo(index);
-    setActive(index);
-});
-
-// ✅ Safe fly function
-function flyTo(index) {
-    const wp = waypoints[index];
-    if (!wp) return;
-
-    map.flyTo({
-        center: wp.center,
-        zoom: wp.zoom,
-        speed: 1.2
-    });
-}
-
-// ✅ Caption activation
-function setActive(index) {
-    document.querySelectorAll('.step').forEach((step, i) => {
-        step.classList.toggle('active', i === index);
-    });
-}
-
-// ✅ Initialize
-map.on('load', () => {
-    flyTo(0);
-    setActive(0);
-});
-
-window.addEventListener('resize', scroller.resize);
 </script>
 
 </body>
