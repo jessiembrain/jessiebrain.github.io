@@ -49,7 +49,7 @@
 
     const map = new mapboxgl.Map({
       container: 'about-map',
-      style: 'mapbox://styles/adoucett/cjeg655wt0i482spoj9gsr10l',
+      style: 'mapbox://styles/mapbox/light-v11',
       center: [-87.0, 40.5],
       zoom: 3.8
     });
