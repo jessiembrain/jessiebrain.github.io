@@ -2,23 +2,20 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Test Map</title>
+  <meta name="viewport" content="initial-scale=1, width=device-width" />
+  <title>Mapbox Test</title>
 
-  <!-- Mapbox CSS -->
   https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css
 
-  <!-- REQUIRED layout styles -->
   <style>
     html, body {
       margin: 0;
-      padding: 0;
       height: 100%;
       width: 100%;
     }
-
     #map {
-      width: 100%;
       height: 100%;
+      width: 100%;
     }
   </style>
 </head>
@@ -26,19 +23,19 @@
 <body>
   <div id="map"></div>
 
-  <!-- Mapbox JS -->
-  https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js>
-
+  https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js
   <script>
-    mapboxgl.accessToken =
-      'pk.eyJ1IjoiY211bnJvIiwiYSI6ImNrZzl0bHE3ZjAwbTcyenBxYXBibGloYngifQ.ZWwFhWy6Edp1Q8X7A9PeyQ';
+    mapboxgl.accessToken = 'YOUR_TOKEN_HERE';
 
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v11',
       center: [-98, 38.88],
-      zoom: 3,
-      minZoom: 2
+      zoom: 3
+    });
+
+    map.on('load', () => {
+      map.resize();
     });
   </script>
 </body>
