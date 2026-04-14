@@ -161,63 +161,49 @@
         const map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/adoucett/cm3kgcgjr000y01qn6xn20cvq',
-            center: [-72.85696, 42.40966], // Initial center [lng, lat]
+            center: [39.95264041107082, -75.16364114954374], // Initial center [lng, lat]
             zoom: 12.18,
-            bearing: -8.8,
+            bearing: 0,
             pitch: 5,
-            interactive: false, // Disable all interactive controls
+            interactive: true, // Disable all interactive controls
         });
 
         // Define waypoints
         const waypoints = [
             {
                 zoom: 12.18,
-                center: [-72.85696, 42.40966],
-                bearing: -8.8,
+                center: [51.45443665583018, -2.587335506119467],
+                bearing: 0,
                 pitch: 5,
-                caption: "I was born here"
+                caption: "I was born in Bristol, UK. I lived the first 6 years of my life in a small village between Bristol and Bath."
             },
             {
                 zoom: 13.03,
-                center: [-72.66772, 42.3134],
+                center: [40.0067144583532, -75.70153433273511],
                 bearing: -8.8,
                 pitch: 5,
-                caption: "I grew up here"
+                caption: "My family moved to the Philadelphia suburbs when I was 6 years old."
             },
             {
                 zoom: 15.05,
-                center: [-73.12195, 40.9195],
+                center: [40.03900012239752, -75.15620391358851],
                 bearing: 131.3,
                 pitch: 51,
-                caption: "I started college here"
+                caption: "I always knew I wanted to go to university in Philadelphia. When touring colleges, La Salle always felt like the right fit."
             },
             {
                 zoom: 15.52,
-                center: [-72.52871, 42.389237],
+                center: [39.98128589308141, -75.15537077674996],
                 bearing: -8.8,
                 pitch: 49,
-                caption: "I finished college here"
+                caption: "After discovering GIS at La Salle, I continued my education at Temple University."
             },
             {
                 zoom: 12.81,
-                center: [-71.09952, 42.36705],
+                center: [39.953083735309086, -75.16280688874843],
                 bearing: 16.5,
                 pitch: 31,
-                caption: "Then lived here"
-            },
-            {
-                zoom: 4.06,
-                center: [-88.47, 39.62],
-                bearing: 0,
-                pitch: 0,
-                caption: "I've traveled here..."
-            },
-            {
-                zoom: 12.15,
-                center: [-90.26756, 38.62457],
-                bearing: 8.8,
-                pitch: 0,
-                caption: "Currently living here"
+                caption: "I'd lived in Philadelphia full-time since 2022, with no plans to leave anytime soon. I've lived in North Philadelphia, Manayunk, and now South Philly."
             }
         ];
 
