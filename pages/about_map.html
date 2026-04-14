@@ -1,490 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Life Story Map Tour</title>
-    <!-- Mapbox GL JS CSS -->
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css" rel="stylesheet">
-    <!-- Scrollama.js CSS (optional, for styling steps) -->
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Arial', sans-serif; /* Modern bold sans-serif font */
-            overflow: hidden;
-        }
-        /* Map Container */
-        #map {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-            z-index: 1;
-        }
-        /* Scroll Container */
-        .scroll-container {
-            position: relative;
-            height: 100vh;
-            width: 100%;
-            overflow-y: scroll;
-            z-index: 2;
-        }
-        /* Steps */
-        .step {
-            position: relative;
-            min-height: 100vh;
-            padding: 20vh 10%;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .step.active .caption {
-            opacity: 1;
-            transform: translate(-50%, -50%) translateY(0);
-        }
-        .step .caption {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) translateY(50px);
-            color: white;
-            text-align: center;
-            font-size: 3em; /* Larger text */
-            font-weight: 900; /* More bold */
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
-            opacity: 0;
-            transition: opacity 1s ease-out, transform 1s ease-out;
-            pointer-events: none;
-            width: 80%;
-        }
-        /* Progress Bar */
-        .progress-container {
-            position: fixed;
-            top: 10px;
-            left: 10%;
-            width: 80%;
-            height: 5px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 2.5px;
-            z-index: 3;
-        }
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: #ff5722;
-            border-radius: 2.5px;
-            transition: width 0.5s ease-out;
-        }
-        @media (max-width: 768px) {
-            .step .caption {
-                font-size: 2em;
-            }
-        }
-        /* Laser Tip Styling */
-        .laser-tip {
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, #00f, #005);
-            border-radius: 50%;
-            box-shadow: 0 0 10px #00f, 0 0 20px #00f, 0 0 30px #00f;
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.5);
-                opacity: 0.7;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<title>My Life Story Map Tour</title>
+
+<!-- ✅ Match versions (v2) -->
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+
+<style>
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+#map {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.scroll-container {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow-y: scroll;
+    z-index: 2;
+}
+
+.step {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.caption {
+    color: white;
+    font-size: 2.5em;
+    text-align: center;
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.step.active .caption {
+    opacity: 1;
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Map Container -->
-    <div id="map"></div>
-    
-    <!-- Progress Bar -->
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-    
-    <!-- Scroll Container -->
-    <div class="scroll-container" id="scroll">
-        <!-- Step 1 -->
-        <div class="step" data-step="0">
-            <div class="caption">I was born here</div>
-        </div>
-        <!-- Step 2 -->
-        <div class="step" data-step="1">
-            <div class="caption">I grew up here</div>
-        </div>
-        <!-- Step 3 -->
-        <div class="step" data-step="2">
-            <div class="caption">I started college here</div>
-        </div>
-        <!-- Step 4 -->
-        <div class="step" data-step="3">
-            <div class="caption">I finished college here</div>
-        </div>
-        <!-- Step 5 -->
-        <div class="step" data-step="4">
-            <div class="caption">Then lived here</div>
-        </div>
-        <!-- Step 6 -->
-        <div class="step" data-step="5">
-            <div class="caption">I've traveled here...</div>
-        </div>
-        <!-- Step 7: Currently Living Here with Run Animation -->
-        <div class="step" data-step="6">
-            <div class="caption">Currently living here</div>
-        </div>
-    </div>
+<div id="map"></div>
 
-    <!-- Mapbox GL JS -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-    <!-- Scrollama.js -->
-    <script src="https://unpkg.com/scrollama"></script>
-    <script>
-        // Mapbox Access Token
-        mapboxgl.accessToken = 'pk.eyJ1IjoiY211bnJvIiwiYSI6ImNrZzl0bHE3ZjAwbTcyenBxYXBibGloYngifQ.ZWwFhWy6Edp1Q8X7A9PeyQ';
+<div class="scroll-container">
+    <div class="step" data-step="0"><div class="caption">I was born here</div></div>
+    <div class="step" data-step="1"><div class="caption">I grew up here</div></div>
+    <div class="step" data-step="2"><div class="caption">I started college here</div></div>
+    <div class="step" data-step="3"><div class="caption">I finished college here</div></div>
+    <div class="step" data-step="4"><div class="caption">Then lived here</div></div>
+    <div class="step" data-step="5"><div class="caption">I've traveled here...</div></div>
+    <div class="step" data-step="6"><div class="caption">Currently living here</div></div>
+</div>
 
-        // Initialize the map
-        const map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v12',
-            center: [39.95264041107082, -75.16364114954374], // Initial center [lng, lat]
-            zoom: 10,
-            bearing: 0,
-            pitch: 5,
-            interactive: true, // Disable all interactive controls
-        });
+<!-- ✅ Match versions -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<script src="https://unpkg.com/scrollama"></script>
 
-        // Define waypoints
-        const waypoints = [
-            {
-                zoom: 12.18,
-                center: [51.45443665583018, -2.587335506119467],
-                bearing: 0,
-                pitch: 5,
-                caption: "I was born in Bristol, UK. I lived the first 6 years of my life in a small village between Bristol and Bath."
-            },
-            {
-                zoom: 13.03,
-                center: [40.0067144583532, -75.70153433273511],
-                bearing: -8.8,
-                pitch: 5,
-                caption: "My family moved to the Philadelphia suburbs when I was 6 years old."
-            },
-            {
-                zoom: 15.05,
-                center: [40.03900012239752, -75.15620391358851],
-                bearing: 131.3,
-                pitch: 51,
-                caption: "I always knew I wanted to go to university in Philadelphia. When touring colleges, La Salle always felt like the right fit."
-            },
-            {
-                zoom: 15.52,
-                center: [39.98128589308141, -75.15537077674996],
-                bearing: -8.8,
-                pitch: 49,
-                caption: "After discovering GIS at La Salle, I continued my education at Temple University."
-            },
-            {
-                zoom: 12.81,
-                center: [39.953083735309086, -75.16280688874843],
-                bearing: 16.5,
-                pitch: 31,
-                caption: "I'd lived in Philadelphia full-time since 2022, with no plans to leave anytime soon. I've lived in North Philadelphia, Manayunk, and now South Philly."
-            }
-        ];
+<script>
+mapboxgl.accessToken = 'YOUR_TOKEN_HERE';
 
-        // Initialize Scrollama
-        const scroller = scrollama();
+// ✅ Use safe default style FIRST
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v12',
+    center: [-75.16, 39.95],
+    zoom: 10
+});
 
-        // Setup Scrollama
-        scroller
-            .setup({
-                step: '.step',
-                offset: 0.5, // Trigger when the step is in the middle of the viewport
-                debug: false
-            })
-            .onStepEnter(response => {
-                const index = parseInt(response.element.getAttribute('data-step'));
-                flyToWaypoint(index);
-                updateProgressBar(index);
-                setActiveStep(index);
+// ✅ Add enough waypoints (match steps)
+const waypoints = [
+    { center: [-2.58, 51.45], zoom: 12 },
+    { center: [-75.70, 40.00], zoom: 13 },
+    { center: [-75.15, 40.03], zoom: 15 },
+    { center: [-75.15, 39.98], zoom: 15 },
+    { center: [-75.16, 39.95], zoom: 12 },
+    { center: [-80.00, 35.00], zoom: 5 },   // filler
+    { center: [-75.16, 39.95], zoom: 13 }   // current
+];
 
-                // Trigger run animation on Step 7 (index 6)
-                if(index === 6){
-                    startRunAnimation();
-                } else {
-                    stopRunAnimation();
-                }
-            });
+const scroller = scrollama();
 
-        // Define waypoints index
-        let currentIndex = 0;
+scroller.setup({
+    step: '.step',
+    offset: 0.5
+})
+.onStepEnter(response => {
+    const index = parseInt(response.element.dataset.step);
+    flyTo(index);
+    setActive(index);
+});
 
-        // Fly to the current waypoint
-        function flyToWaypoint(index) {
-            const wp = waypoints[index];
-            map.flyTo({
-                center: wp.center,
-                zoom: wp.zoom,
-                bearing: wp.bearing,
-                pitch: wp.pitch,
-                speed: 1.2, // Adjust for animation speed
-                essential: true
-            });
-        }
+// ✅ Safe fly function
+function flyTo(index) {
+    const wp = waypoints[index];
+    if (!wp) return;
 
-        // Update Progress Bar
-        function updateProgressBar(index) {
-            const progress = ((index + 1) / waypoints.length) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
+    map.flyTo({
+        center: wp.center,
+        zoom: wp.zoom,
+        speed: 1.2
+    });
+}
 
-        // Set Active Step for Caption Animation
-        function setActiveStep(index) {
-            const steps = document.querySelectorAll('.step');
-            steps.forEach((step, i) => {
-                if (i === index) {
-                    step.classList.add('active');
-                } else {
-                    step.classList.remove('active');
-                }
-            });
-        }
+// ✅ Caption activation
+function setActive(index) {
+    document.querySelectorAll('.step').forEach((step, i) => {
+        step.classList.toggle('active', i === index);
+    });
+}
 
-        // Initialize the first waypoint when the map is loaded
-        map.on('load', () => {
-            flyToWaypoint(currentIndex);
-            updateProgressBar(currentIndex);
-            setActiveStep(currentIndex);
-        });
+// ✅ Initialize
+map.on('load', () => {
+    flyTo(0);
+    setActive(0);
+});
 
-        // Handle window resize
-        window.addEventListener('resize', scroller.resize);
+window.addEventListener('resize', scroller.resize);
+</script>
 
-        /* ------------------- Run Animation Feature ------------------- */
-
-        // Variables for Run Animation
-        let runData = null; // To store fetched GeoJSON
-        let currentDayIndex = 0;
-        let runLayerId = 'runs-animation-layer';
-        let runSourceId = 'runs-animation-source';
-        let laserMarker = null;
-        let animationInterval = null; // To control the animation
-
-        // Fetch and prepare the GeoJSON data
-        async function fetchRunData() {
-            try {
-                console.log('Fetching run data...');
-                const response = await fetch('https://doucett.net/data/json/runs_animation.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const rawData = await response.json();
-
-                // Preprocess data: group by date
-                runData = groupRunsByDate(rawData.features);
-                console.log('Run data fetched and grouped by date:', runData);
-            } catch (error) {
-                console.error('Error fetching run data:', error);
-            }
-        }
-
-        // Group runs by date (ignoring time)
-        function groupRunsByDate(features) {
-            const grouped = {};
-            features.forEach(feature => {
-                const runStartTime = feature.properties.run_start_time;
-                const date = new Date(runStartTime).toISOString().split('T')[0]; // Extract date part
-                if(!grouped[date]){
-                    grouped[date] = [];
-                }
-                grouped[date].push(feature);
-            });
-            // Convert to sorted array
-            const sortedDates = Object.keys(grouped).sort((a, b) => new Date(a) - new Date(b));
-            return sortedDates.map(date => ({
-                date: date,
-                features: grouped[date]
-            }));
-        }
-
-        // Start the run animation
-        async function startRunAnimation(){
-            console.log('Starting run animation...');
-            if(!runData){
-                await fetchRunData();
-                if(!runData || runData.length === 0){
-                    console.error('No run data available to animate.');
-                    return;
-                }
-                addRunLayers();
-            }
-            currentDayIndex = 0;
-            animateDayRun();
-        }
-
-        // Stop the run animation
-        function stopRunAnimation(){
-            console.log('Stopping run animation...');
-            if(animationInterval){
-                clearInterval(animationInterval);
-                animationInterval = null;
-            }
-            // Remove run layers and markers
-            if(map.getLayer(runLayerId)){
-                map.removeLayer(runLayerId);
-            }
-            if(map.getSource(runSourceId)){
-                map.removeSource(runSourceId);
-            }
-            if(laserMarker){
-                laserMarker.remove();
-                laserMarker = null;
-            }
-            runData = null; // Reset run data
-        }
-
-        // Add run layers to the map
-        function addRunLayers(){
-            if(map.getSource(runSourceId)) return;
-
-            map.addSource(runSourceId, {
-                type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: []
-                }
-            });
-
-            map.addLayer({
-                id: runLayerId,
-                type: 'line',
-                source: runSourceId,
-                layout: {
-                    'line-cap': 'round',
-                    'line-join': 'round'
-                },
-                paint: {
-                    'line-color': '#36F7E9',
-                    'line-width': 8,
-                    'line-opacity': .8,
-                    'line-blur' : .2
-                
-                }
-            });
-        }
-
-        // Animate runs day by day
-        function animateDayRun(){
-            if(currentDayIndex >= runData.length){
-                currentDayIndex = 0; // Loop the animation
-            }
-            const dayRun = runData[currentDayIndex];
-            const dayFeatures = dayRun.features;
-            console.log(`Animating runs for date: ${dayRun.date}, number of runs: ${dayFeatures.length}`);
-
-            // Iterate through each run of the day sequentially
-            let runIndex = 0;
-
-            function animateSingleRun(){
-                if(runIndex >= dayFeatures.length){
-                    // Proceed to next day after all runs of the day are animated
-                    currentDayIndex++;
-                    animateDayRun(); // Recursive call for the next day
-                    return;
-                }
-
-                const runFeature = dayFeatures[runIndex];
-                animateRunFeature(runFeature).then(() => {
-                    runIndex++;
-                    animateSingleRun(); // Animate the next run
-                });
-            }
-
-            animateSingleRun();
-        }
-
-        // Animate a single run feature
-        function animateRunFeature(feature){
-            return new Promise((resolve) => {
-                const coordinates = feature.geometry.coordinates;
-                if(coordinates.length < 2){
-                    console.warn('Run feature has insufficient coordinates:', feature);
-                    resolve();
-                    return;
-                }
-
-                // Initialize animation parameters
-                let step = 0;
-                const totalSteps = coordinates.length;
-                const animationSpeed = 10; // Adjust speed (ms per step)
-
-                // Function to update the run line and move the marker
-                function animateStep(){
-                    // Update the run line with coordinates up to current step
-                    const slicedCoords = coordinates.slice(0, step + 1);
-                    map.getSource(runSourceId).setData({
-                        type: 'FeatureCollection',
-                        features: [{
-                            type: 'Feature',
-                            geometry: {
-                                type: 'LineString',
-                                coordinates: slicedCoords
-                            },
-                            properties: {}
-                        }]
-                    });
-
-                    // Move the laser marker to the current coordinate
-                    if(!laserMarker){
-                        laserMarker = new mapboxgl.Marker({
-                            element: createLaserElement(),
-                            anchor: 'bottom'
-                        })
-                        .setLngLat(slicedCoords[step])
-                        .addTo(map);
-                    } else {
-                        laserMarker.setLngLat(slicedCoords[step]);
-                    }
-
-                    step++;
-
-                    if(step < totalSteps){
-                        animationInterval = setTimeout(animateStep, animationSpeed);
-                    } else {
-                        // Brief pause before resolving to ensure the last point is visible
-                        animationInterval = setTimeout(resolve, animationSpeed);
-                    }
-                }
-
-                animateStep();
-            });
-        }
-
-        // Create the laser marker element
-        function createLaserElement(){
-            const el = document.createElement('div');
-            el.className = 'laser-tip';
-            return el;
-        }
-
-        // Initial fetch of run data
-        fetchRunData();
-
-    </script>
 </body>
 </html>
