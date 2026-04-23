@@ -5,10 +5,10 @@
   --color-bg-surface: #F7D08A;
   --color-bg-elevated: #E3F09B;
 
-  --color-accent: #E67E22;
-  --color-accent-hover: #D35400;
-  --color-accent-subtle: rgba(230, 126, 34, 0.08);
-  --color-accent-glow: rgba(230, 126, 34, 0.25);
+  --color-accent: #F7D08A;
+  --color-accent-hover: #F79F79;
+  --color-accent-subtle: #F7D08A ;
+  --color-accent-glow: #E3F09B;
 
   --color-teal: #4ECDC4;
   --color-teal-subtle: rgba(78, 205, 196, 0.08);
