@@ -1,9 +1,9 @@
 :root {
-  /* Color Palette — Geospatial Dark Theme */
-  --color-bg-primary: #0F1114;
-  --color-bg-secondary: #161A1D;
-  --color-bg-surface: #1E2328;
-  --color-bg-elevated: #262B31;
+  /* Color Palette — Colorful Theme */
+  --color-bg-primary: #87B6A7;
+  --color-bg-secondary: #F79F79;
+  --color-bg-surface: #F7D08A;
+  --color-bg-elevated: #E3F09B;
 
   --color-accent: #E67E22;
   --color-accent-hover: #D35400;
