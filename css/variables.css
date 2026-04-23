@@ -1,21 +1,21 @@
 :root {
   /* Color Palette — Colorful Theme */
-  --color-bg-primary: #87B6A7;
-  --color-bg-secondary: #F79F79;
-  --color-bg-surface: #F7D08A;
-  --color-bg-elevated: #E3F09B;
+  --color-bg-primary: #CDEAC0;
+  --color-bg-secondary: #4D7C8A;
+  --color-bg-surface: #FAB3A9;
+  --color-bg-elevated: #FFFFB3;
 
-  --color-accent: #F7D08A;
-  --color-accent-hover: #F79F79;
-  --color-accent-subtle: #F7D08A ;
-  --color-accent-glow: #E3F09B;
+  --color-accent: #4D7C8A;
+  --color-accent-hover: #FAB3A9;
+  --color-accent-subtle: #FAB3A9 ;
+  --color-accent-glow: #FFFFB3;
 
   --color-teal: #4ECDC4;
   --color-teal-subtle: rgba(78, 205, 196, 0.08);
 
-  --color-text-primary: #F2F0EB;
-  --color-text-secondary: #A0AABA;
-  --color-text-muted: #6B7280;
+  --color-text-primary: #463239;
+  --color-text-secondary: #080808;
+  --color-text-muted: #080808;
 
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-accent: rgba(230, 126, 34, 0.3);
