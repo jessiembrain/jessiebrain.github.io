@@ -12,7 +12,7 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background-color: #000; /* Set background to black for night effect */
+            background-color: #ffffff; /* Set background to black for night effect */
         }
         #map {
             position: absolute;
@@ -31,11 +31,11 @@
         const map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/adoucett/cl59necov000b15pk1jirufhx',
-            center: [-71.0589, 42.3601], // Boston, MA as the initial center
+            center: [-75.16364599829393, 39.952432326104216], // Philadelphia, PA as the initial center
             zoom: 12,
             pitch: 75,
             antialias: true,
-            interactive: false,
+            interactive: true,
         });
 
         const animatedLayers = [
@@ -109,21 +109,12 @@
                     {
                         type: 'flat',
                         position: [1.5, 90, 80],
-                        color: 'white',
-                        intensity: 0.7
+                        color: 'green',
+                        intensity: 5
                     }
                 ]
             });
 
-            // Optionally add fog for more atmosphere
-            map.setFog({
-                'range': [-1, 2],
-                'horizon-blend': 0.5,
-                'color': '#242B4B',
-                'high-color': '#161B36',
-                'space-color': '#0B1026',
-                'star-intensity': 1
-            });
         });
 
     </script>
